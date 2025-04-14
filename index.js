@@ -1,29 +1,51 @@
-let balance = 500.00;
+class Account {
 
-class Withdrawal {
+  constructor(username) {
+    this.username = username;
+    this.balance = 0;
+  }
+}
 
-  constructor(amount) {
+class Transaction {
+
+  constructor(amount, account) {
     this.amount = amount;
+    this.account = account;
+
   }
 
   commit() {
-    balance -= this.amount;
+    this.account.balance += this.value();
+  }
+}
+
+class Withdrawal extends Transaction {
+
+  value() {
+    return -this.amount;
+
+  }
+
+}
+
+class Deposit extends Transaction {
+
+  value() {
+    return this.amount;
   }
 
 }
 
 
-
-
 // DRIVER CODE BELOW
 // We use the code below to "drive" the application logic above and make sure it's working as expected
+const myAccount = new Account("snow-patrol");
+console.log('Starting Balance:', myAccount.balance);
 
-t1 = new Withdrawal(50.25);
+const t1 = new Deposit(120.00, myAccount);
 t1.commit();
-console.log('Transaction 1:', t1);
 
-t2 = new Withdrawal(9.99);
+const t2 = new Withdrawal(50, myAccount);
 t2.commit();
-console.log('Transaction 2:', t2);
 
-console.log('Balance:', balance);
+console.log('Remaining Balance:', myAccount.balance);
